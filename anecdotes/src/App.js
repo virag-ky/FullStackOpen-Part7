@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Routes, Route, Link, useMatch, useNavigate } from 'react-router-dom';
 import { useField } from './hooks';
-import { Table, Form, Button } from 'react-bootstrap';
+import { Table, Form, Button, Alert } from 'react-bootstrap';
 
 const Menu = () => {
   const padding = {
@@ -171,7 +171,11 @@ const App = () => {
     <div className="container">
       <h1>Software anecdotes</h1>
       <Menu />
-      {notification}
+      {notification !== '' ? (
+        <Alert variant="success">{notification}</Alert>
+      ) : (
+        ''
+      )}
       <Routes>
         <Route path="/:id" element={<Anecdote anecdote={anecdote} />} />
         <Route path="/" element={<AnecdoteList anecdotes={anecdotes} />} />
