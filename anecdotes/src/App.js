@@ -1,24 +1,35 @@
 import { useState } from 'react';
 import { Routes, Route, Link, useMatch, useNavigate } from 'react-router-dom';
 import { useField } from './hooks';
-import { Table, Form, Button, Alert } from 'react-bootstrap';
+import { Table, Form, Button, Alert, Navbar, Nav } from 'react-bootstrap';
 
 const Menu = () => {
   const padding = {
     paddingRight: 5,
   };
   return (
-    <div>
-      <Link style={padding} to="/">
-        anecdotes
-      </Link>
-      <Link style={padding} to="/create">
-        create new
-      </Link>
-      <Link style={padding} to="/about">
-        about
-      </Link>
-    </div>
+    <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+      <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+      <Navbar.Collapse id="responsive-navbar-nav">
+        <Nav className="me-auto">
+          <Nav.Link as="span">
+            <Link style={padding} to="/">
+              anecdotes
+            </Link>
+          </Nav.Link>
+          <Nav.Link as="span">
+            <Link style={padding} to="/create">
+              create new
+            </Link>
+          </Nav.Link>
+          <Nav.Link as="span">
+            <Link style={padding} to="/about">
+              about
+            </Link>
+          </Nav.Link>
+        </Nav>
+      </Navbar.Collapse>
+    </Navbar>
   );
 };
 
