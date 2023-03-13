@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Routes, Route, Link, useMatch, useNavigate } from 'react-router-dom';
 import { useField } from './hooks';
+import { Table, Form, Button } from 'react-bootstrap';
 
 const Menu = () => {
   const padding = {
@@ -24,13 +25,17 @@ const Menu = () => {
 const AnecdoteList = ({ anecdotes }) => (
   <div>
     <h2>Anecdotes</h2>
-    <ul>
-      {anecdotes.map((anecdote) => (
-        <li key={anecdote.id}>
-          <Link to={`/${anecdote.id}`}>{anecdote.content}</Link>
-        </li>
-      ))}
-    </ul>
+    <Table striped>
+      <tbody>
+        {anecdotes.map((anecdote) => (
+          <tr key={anecdote.id}>
+            <td>
+              <Link to={`/${anecdote.id}`}>{anecdote.content}</Link>
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </Table>
   </div>
 );
 
@@ -72,42 +77,35 @@ const CreateNew = (props) => {
   const content = useField('text');
   const author = useField('text');
   const info = useField('text');
-  const reset = useField('text');
 
   const handleSubmit = (e) => {
     e.preventDefault();
     props.addNew({
-      content,
-      author,
-      info,
+      content: content.value,
+      author: author.value,
+      info: info.value,
       votes: 0,
     });
     navigate('/');
   };
 
-  const resetInputs = () => {
-    reset();
-  };
-
   return (
     <div>
       <h2>create a new anecdote</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          content
-          <input {...content[0]} />
-        </div>
-        <div>
-          author
-          <input {...author[0]} />
-        </div>
-        <div>
-          url for more info
-          <input {...info[0]} />
-        </div>
-        <button>create</button>
-      </form>
-      <button onClick={() => resetInputs()}>reset</button>
+      <Form onSubmit={handleSubmit}>
+        <Form.Group>
+          <Form.Label>content: </Form.Label>
+          <Form.Control {...content} />
+          <Form.Label>author: </Form.Label>
+          <Form.Control {...author} />
+          <Form.Label>info: </Form.Label>
+          <Form.Control {...info} />
+          <Button variant="primary" type="submit">
+            create
+          </Button>
+        </Form.Group>
+      </Form>
+      <Button variant="primary">reset</Button>
     </div>
   );
 };
@@ -156,21 +154,21 @@ const App = () => {
     }, 5000);
   };
 
-  const anecdoteById = (id) => anecdotes.find((a) => a.id === id);
+  // const anecdoteById = (id) => anecdotes.find((a) => a.id === id);
 
-  const vote = (id) => {
-    const anecdote = anecdoteById(id);
+  // const vote = (id) => {
+  //   const anecdote = anecdoteById(id);
 
-    const voted = {
-      ...anecdote,
-      votes: anecdote.votes + 1,
-    };
+  //   const voted = {
+  //     ...anecdote,
+  //     votes: anecdote.votes + 1,
+  //   };
 
-    setAnecdotes(anecdotes.map((a) => (a.id === id ? voted : a)));
-  };
+  //   setAnecdotes(anecdotes.map((a) => (a.id === id ? voted : a)));
+  // };
 
   return (
-    <div>
+    <div className="container">
       <h1>Software anecdotes</h1>
       <Menu />
       {notification}
